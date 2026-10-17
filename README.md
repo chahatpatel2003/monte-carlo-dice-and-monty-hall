@@ -1,10 +1,24 @@
 # Monte Carlo Simulations: Dice Sums and the Monty Hall Problem
 
+[![tests](https://github.com/chahatpatel2003/monte-carlo-dice-and-monty-hall/actions/workflows/tests.yml/badge.svg)](https://github.com/chahatpatel2003/monte-carlo-dice-and-monty-hall/actions/workflows/tests.yml)
+
 Two Monte Carlo studies from CSCI 154 (Simulation) at California State University, Fresno, Summer 2025.
 Both are checked against exact probabilities, not just eyeballed.
 
 1. **Dice sums.** Roll 1–5 dice with 4, 6, 8, 10, 12 or 20 sides, 10 to 100,000 times. Measure how quickly the simulated mean converges to its expected value and how the distribution of the sum changes shape.
 2. **Monty Hall.** Stay or switch with 3, 6, 9, 20 and 100 doors. An "unpredictable" variant lets the host open a door at random with probability *r*, so the game can be ruined.
+
+## Technical highlights
+
+| Area | What the code does | From |
+|---|---|---|
+| Experiment design | Sweeps 150 dice configurations (6 die types × 1–5 dice × 5 trial counts) and compares each simulated mean with its expected value | 2025 project |
+| Simulation modelling | Simulates the standard and the random-host Monty Hall games for any number of doors, tracking games the host ruins | 2025 project (Monty Hall code reconstructed) |
+| Probability theory in code | Exact distribution of a dice sum by discrete convolution; closed-form win and ruin probabilities for *N* doors and host error *r* | Added 2026 |
+| Statistical validation | Standard errors, z-scores and χ² goodness-of-fit tests check the simulations, and the report's recovered tables, against exact results | Added 2026 |
+| Engineering | Vectorised, seeded NumPy; command-line interfaces; headless plotting; 27 pytest tests; CI on Python 3.11–3.13 with a lint check | Added 2026 |
+
+**Stack:** Python, NumPy, pandas, Matplotlib, pytest, Ruff, GitHub Actions.
 
 ## What is original and what is not
 
@@ -84,6 +98,8 @@ python monty_hall.py --host-error 1 --no-plots
 python -m pytest                             # 27 tests (~5 s)
 ```
 
+`requirements.txt` gives minimum versions. `requirements-lock.txt` pins the exact versions the tests were last run with locally (Python 3.12). The tests have also passed locally on Python 3.13, and GitHub Actions runs them on Python 3.11, 3.12 and 3.13 on every push.
+
 The recovered original can also be run directly; it writes `dice_roll_summary.csv` to the current directory:
 
 ```bash
@@ -102,6 +118,8 @@ MPLBACKEND=Agg python original/dice_simulation_original.py
 ├── data/recovered_report_tables.csv  report tables, transcribed
 ├── results/                      outputs of the seeded runs above
 ├── tests/
+├── .github/workflows/tests.yml   CI: pytest on Python 3.11–3.13, plus Ruff
 ├── PROVENANCE.md
-└── requirements.txt
+├── requirements.txt              minimum versions
+└── requirements-lock.txt         exact versions last tested
 ```

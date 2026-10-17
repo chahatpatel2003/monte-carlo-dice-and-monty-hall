@@ -1,4 +1,14 @@
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
-markers = ["slow: runs the recovered original script end to end (about 15 seconds)"]
+markers = ["slow: runs the recovered original script end to end (a few seconds)"]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["original"]  # the recovered original is kept byte-for-byte
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["dice_simulation", "monty_hall"]
